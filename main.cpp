@@ -12,10 +12,13 @@ int main(){
   
   std::vector<int> weights(numItems, 0); //Weight of each item
   std::vector<int> values(numItems, 0); //Value of each item
+  std::vector<int> knapsack; //Will hold item indexes needed for final solution
   
   //This table holds values for each useful item and weight combination.
   //Combinations that build up our solution to a higher value than previous steps are included.
   std::vector<std::vector<int> > worksheet(numItems, std::vector<int>(maxWeight+1, 0));
+  //This table holds booleans to show if we took an item or not.
+  std::vector<std::vector<bool> > taken(numItems, std::vector<bool>(maxWeight+1, 0));
 
   //Generate some random weights and values
   for(int i=0; i<numItems; i++){
@@ -43,17 +46,37 @@ int main(){
     for(int j=0; j<maxWeight+1; j++){ //Consider each item at every valid weight as a subproblem.
       if(weights[i]>j) //Drop in value from the row above if item is too heavy for this iteration.
 	worksheet[i][j] = worksheet[i-1][j];
-      else if(worksheet[i-1][j-weights[i]] +values[i] > worksheet[i-1][j]) 
+      else if(worksheet[i-1][j-weights[i]] +values[i] > worksheet[i-1][j]){
 	//If the value of the worksheet would go up by adding this item, include it.
 	worksheet[i][j] = worksheet[i-1][j-weights[i]] +values[i];
+	//Note that we have taken this item at this step.
+	taken[i][j]=true;
+      }
       else //Drop in the value from the row above if item doesn't help.
 	worksheet[i][j] = worksheet[i-1][j];
       if(j>0 && worksheet[i][j]< worksheet[i][j-1]) //Copy value forward if prior entry was greater.
 	worksheet[i][j]= worksheet[i][j-1];
     }
+  int W = maxWeight;
+  //Find our items included in the solution
+  for(int i=taken.size()-1; i>-1; i--)
+    if(taken[i][W]==true){
+      knapsack.push_back(i); //Put the items in the knapsack if they were in the optimal solution.
+      W -= weights[i];
+    }
+      
   
-  //Print maximum value
-  std::cout << '\n' << "Maximum value: $" << worksheet[numItems-1][maxWeight] << '\n' << '\n';
+  //Print maximum value and the items required for that solution
+  std::cout << '\n' << "Maximum value: $" << worksheet[numItems-1][maxWeight] << '\n'
+   << "Items needed for this solution: ";
+   for(int i=0; i<knapsack.size(); i++){
+     std::cout << knapsack[i];
+   if(i==knapsack.size()-1)
+     std::cout << ". ";
+   else
+     std::cout << ", ";
+   }
+  std::cout << '\n' << '\n';
   
   //Print worksheet to study the algorithm's output.
   /* Our rows represent the number of items considered. 1-numItems rows.
