@@ -81,6 +81,7 @@ int main(){
   /* Our rows represent the number of items considered. 1-numItems rows.
      Columns represent the total weight. 0-maxWeight columns. (possible to have items weigh 0).
      Entries on the worksheet represent the max value at that weight and number of items. */
+  std::cout << "Ending worksheet:" << '\n';
   for(int i=0; i<numItems; i++){
     for(int j=0; j<maxWeight+1; j++)
       std::cout << worksheet[i][j] << " ";
