@@ -35,12 +35,16 @@ int main(){
   //Avoids indexing problems in the main loop.
   if(weights[0] < maxWeight){
     worksheet[0][weights[0]] = values[0];
-    for(int i=weights[0]; i<maxWeight; i++)
+    taken[0][weights[0]]=true;
+    for(int i=weights[0]; i<maxWeight+1; i++){
       worksheet[0][i+1]=worksheet[0][i];
+      taken[0][i]=true;
+    }
   }
-  else if(weights[0] == maxWeight)
+  else if(weights[0] == maxWeight){
     worksheet[0][weights[0]] = values[0];
-  
+    taken[0][weights[0]]=true;
+  }
   //Loop over the worksheet considering all items.
   for(int i=1; i<numItems; i++)
     for(int j=0; j<maxWeight+1; j++){ //Consider each item at every valid weight as a subproblem.
@@ -58,18 +62,21 @@ int main(){
 	worksheet[i][j]= worksheet[i][j-1];
     }
   int W = maxWeight;
+  int solutionWeight=0;
   //Find our items included in the solution
-  for(int i=taken.size()-1; i>-1; i--)
+  for(int i=numItems-1; i>-1; i--)
     if(taken[i][W]==true){
       knapsack.push_back(i); //Put the items in the knapsack if they were in the optimal solution.
       W -= weights[i];
+      solutionWeight+=weights[i];
     }
       
   
   //Print maximum value and the items required for that solution
   std::cout << '\n' << "Maximum weight of our knapsack: " << maxWeight;
-  std::cout << '\n' << "Maximum value we can carry: $" << worksheet[numItems-1][maxWeight] << '\n'
-   << "Items needed for this solution: ";
+  std::cout << '\n' << "Maximum value we can carry: $" << worksheet[numItems-1][maxWeight];
+  std::cout << '\n' << "Total weight used to carry maximum value: " << solutionWeight << '/' << maxWeight;
+  std::cout << '\n' << "Which item(s) to take for maximum value: ";
    for(int i=0; i<knapsack.size(); i++){
      std::cout << knapsack[i];
    if(i==knapsack.size()-1) std::cout << ". ";
@@ -85,6 +92,16 @@ int main(){
   for(int i=0; i<numItems; i++){
     for(int j=0; j<maxWeight+1; j++)
       std::cout << worksheet[i][j] << " ";
+    std::cout << '\n';
+  }
+  std::cout << '\n';
+
+  //Print taken decisions to study the algorithm's output.
+  /* 1's in rows represent the fact that we took that item for the subproblem at that weight */
+  std::cout << "Ending taken decisions:" << '\n';
+  for(int i=0; i<numItems; i++){
+    for(int j=0; j<maxWeight+1; j++)
+      std::cout << taken[i][j] << " ";
     std::cout << '\n';
   }
   
