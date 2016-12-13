@@ -1,0 +1,17 @@
+Item 0: weighs 28 pounds, worth $5
+Item 1: weighs 48 pounds, worth $3
+Item 2: weighs 34 pounds, worth $7
+Item 3: weighs 29 pounds, worth $4
+Item 4: weighs 22 pounds, worth $7
+Item 5: weighs 36 pounds, worth $1
+
+Maximum weight of our knapsack: 30
+Maximum value we can carry: $7
+Items needed for this solution: 4. 
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 7 7 7 7 7 7 7 7 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 7 7 7 7 7 7 7 7 
